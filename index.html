@@ -1,0 +1,49 @@
+<html>
+<head>
+  <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
+</head>
+<body onload="getInfo()">
+<button onclick="getInfo()">Info</button>
+<button onclick="sign()">Sign</button>
+<script>
+
+  function getInfo() {
+    $.ajax({
+      type: "POST",
+      url: "http://localhost:6210/crypto/getCertInfo",
+      success: function (data) {
+        if (data) {
+          console.log(data);
+          sign(data)
+        }
+      }
+    });
+  }
+
+  function sign(keyInfo) {
+    console.log(JSON.parse(keyInfo));
+    var jsonInfo = JSON.parse(keyInfo);
+    var params = {
+      "obj": jsonInfo.certInfos[0].pubCert,
+      "cert_thumb": jsonInfo.certInfos[0].thumbprint,
+      "cms": false,
+      "detached": false,
+      "pin": "",
+      "cert_sn": ""
+    };
+    var msg = JSON.stringify(params);
+    console.log('msg', msg)
+
+    $.ajax({
+      type: "POST",
+      url: "http://localhost:6210/crypto/signMSG",
+      data: msg,
+      success: function (data) {
+        console.log(data);
+      }
+    });
+  }
+
+</script>
+</body>
+</html>
