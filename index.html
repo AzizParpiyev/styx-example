@@ -25,11 +25,8 @@
     var jsonInfo = JSON.parse(keyInfo);
     var params = {
       "obj": jsonInfo.certInfos[0].pubCert,
-      "cert_thumb": "",
       "cms": false,
-      "detached": false,
-      "pin": "",
-      "cert_sn": "",
+      "detached": false
     };
     var msg = JSON.stringify(params);
     console.log('msg', msg)
