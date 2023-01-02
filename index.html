@@ -34,7 +34,7 @@
     var ws = new WebSocket("ws://localhost:8181");
     ws.onopen = function () {
       var jsonInfo = JSON.parse(keyInfo);
-      var obj = { "function":"signMSG", "obj":"quick brown fox jumps over the lazy dog", "cms":false, "detached":false, "cert_thumb": jsonInfo.certInfos[0].thumbprint, }
+      var obj = { "function":"signMSG", "obj":"quick brown fox jumps over the lazy dog", "cms":false, "detached":false, "cert_sn":"", "cert_thumb": jsonInfo.certInfos[0].thumbprint, }
       var msg = JSON.stringify(obj);
       ws.send(msg);
     };
@@ -72,6 +72,7 @@
       "obj": jsonInfo.certInfos[0].pubCert,
       "cms": false,
       "detached": false,
+      "cert_sn":"",
       "cert_thumb": jsonInfo.certInfos[0].thumbprint
     };
     var msg = JSON.stringify(params);
