@@ -5,7 +5,52 @@
 <body onload="getInfo()">
 <button onclick="getInfo()">Info</button>
 <button onclick="sign()">Sign</button>
+  
+<button onclick="WSgetInfo('getCertInfo')">WebSocket Info</button>
 <script>
+  function WSgetInfo(info){
+    var ws = new WebSocket("ws://localhost:8181");
+    ws.onopen = function () {
+      var obj = { "function": info}
+      var msg = JSON.stringify(obj);
+      ws.send(msg);
+    };
+
+    ws.onmessage = function (evt) {
+        var received_msg = evt.data;
+        var myObj = JSON.parse(received_msg);
+        if (myObj.status == "success") {
+          console.log(myObj);
+          WSsign(received_msg);
+        }
+    };
+
+    ws.onclose = function () {
+        alert("Connection is closed...");
+    };
+  }
+
+  function WSsign(keyInfo){
+    var ws = new WebSocket("ws://localhost:8181");
+    ws.onopen = function () {
+      var jsonInfo = JSON.parse(keyInfo);
+      var obj = { "function":"signMSG", "obj":"quick brown fox jumps over the lazy dog", "cms":false, "detached":false, "cert_thumb": jsonInfo.certInfos[0].thumbprint, }
+      var msg = JSON.stringify(obj);
+      ws.send(msg);
+    };
+
+    ws.onmessage = function (evt) {
+        var received_msg = evt.data;
+        var myObj = JSON.parse(received_msg);
+        if (myObj.status == "success") {
+          console.log(myObj);
+        }
+    };
+
+    ws.onclose = function () {
+        alert("Connection is closed...");
+    };
+  }
 
   function getInfo() {
     $.ajax({
@@ -26,7 +71,8 @@
     var params = {
       "obj": jsonInfo.certInfos[0].pubCert,
       "cms": false,
-      "detached": false
+      "detached": false,
+      "cert_thumb": jsonInfo.certInfos[0].thumbprint
     };
     var msg = JSON.stringify(params);
     console.log('msg', msg)
