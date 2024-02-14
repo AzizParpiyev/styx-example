@@ -3,6 +3,7 @@
   <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
 </head>
 <body onload="getInfo()">
+<button onclick="getCSR()">CSR</button>
 <button onclick="getInfo()">Info</button>
 <button onclick="sign()">Sign</button>
   
@@ -50,6 +51,32 @@
     ws.onclose = function () {
         alert("Connection is closed...");
     };
+  }
+
+  function getCSR() {
+    var params = {
+        "commonName":"test kapital",
+        "surName":"anvar",
+        "locality":"Uz",
+        "state":"аываыв ыава уцпцупt",
+        "country":"UZ",
+        "street":"фыва",
+        "email":"test@test.uz",
+        "organisation":"ellips",
+        "organisationUnit":"UZB0101010",
+        "uzINN":"123456789",
+        "uzPINFL":"12345678901234"
+    };
+    var msg = JSON.stringify(params);
+    
+    $.ajax({
+      type: "POST",
+      url: "http://localhost:6210/crypto/getVirtualCSR",
+      data: msg,
+      success: function (data) {
+        console.log(data);
+      }
+    });
   }
 
   function getInfo() {
