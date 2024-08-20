@@ -118,6 +118,10 @@ STYX-SERVER - ПО предназначена для проверки подпи
 
     systemctl status metin
 
+Остановка сервиса выполняется командой:
+
+    systemctl stop metin
+
 После запуска команды в консоле напечатается лог примерно следующего содержания:
 ```
 metin.service - AS server .NET Web API App
