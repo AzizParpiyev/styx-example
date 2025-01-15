@@ -124,7 +124,7 @@ HTTP 200 - означает успешное выполнение HTTP запр�
 
       $.ajax({
         type: "POST",
-        url: "http://localhost:6210/crypto/signMSG",
+        url: "http://localhost:6210/crypto/getCertificate",
         data: msg,
         success: function (data) {
           console.log(data);
@@ -153,7 +153,7 @@ HTTP 200 - означает успешное выполнение HTTP запр�
 
       $.ajax({
         type: "POST",
-        url: "http://localhost:6210/crypto/signMSG",
+        url: "http://localhost:6210/crypto/getCertificate",
         data: msg,
         success: function (data) {
           console.log(data);
